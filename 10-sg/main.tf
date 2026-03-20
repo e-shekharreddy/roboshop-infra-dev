@@ -3,5 +3,5 @@ module "sg" {
     project = var.project
     environment = var.environment
     sg_name = var.sg_name
-    vpc_id = data.aws_vpc
+    vpc_id = local.vpc_id
 }
