@@ -41,3 +41,14 @@ resource "aws_security_group_rule" "mongodb_user" {
 # dest or accepting one
   security_group_id = local.mongodb_sg_id
 }
+
+resource "aws_security_group_rule" "redis_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+# where traffic is comming from
+  source_security_group_id = local.bastion_sg_id
+# dest or accepting
+  security_group_id = local.redis_sg_id
+}
