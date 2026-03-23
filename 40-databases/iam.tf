@@ -24,3 +24,13 @@ resource "aws_iam_role" "mysql" {
     local.common_tags
   )
 }
+resource "aws_iam_policy" "mysql" {
+  name        = local.mysql_policy_name
+  description = "A policy for MySQL ec2 instance"
+  policy = file("mysql-iam-policy.json")
+}
+
+resource "aws_iam_role_policy_attachment" "mysql" {
+  role       = aws_iam_role.mysql.name
+  policy_arn = aws_iam_policy.mysql.arn
+}
