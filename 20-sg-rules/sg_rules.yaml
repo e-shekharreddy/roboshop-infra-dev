@@ -23,3 +23,15 @@ mongodb:
   port: 22
   src : bastion
   dest: redis
+
+
+- name: mysql_bastion
+  port: 22
+  src : bastion
+  dest: mysql
+
+
+- name: rabbitmq_bastion
+  port: 22
+  src : bastion
+  dest: rabbitmq
