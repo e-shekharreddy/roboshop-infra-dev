@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# we are creating 50Gb root disk, but only 20gb is partioned 
-# reamaing 30GB we need to exted using below commands
-growpart /dev/nvme0n1 4
-lvextend -r -L +30G /dev/mapper/RootVG-homeVol
-xfs_growfs /home
+# 1. Expand the partition
+sudo growpart /dev/nvme0n1 4
 
-yum install -y yum-utils
-yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-yum -y install terraform
+# 2. Extend the LVM and Resize the FS (Fixed typo: homeVol)
+sudo lvextend -r -L +30G /dev/mapper/RootVG-homeVol
+
+# 3. Install Terraform
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+sudo yum -y install terraform
