@@ -3,7 +3,7 @@ resource "aws_lb" "backend_alb" {
   internal           = true
   load_balancer_type = "application"
   security_groups    = [local.backend_alb_sg_id]
-  subnets            = [local.private_sg_ids]
+  subnets            = local.private_sg_ids
 
 # generally it is true but for terraform deletion we keep this is false
   enable_deletion_protection = false
