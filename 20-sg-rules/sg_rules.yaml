@@ -40,3 +40,8 @@ mongodb:
   port: 22
   src : bastion
   dest: backend_alb
+
+  - name: frontend_alb
+  port: 443
+  src : cidr_blocks
+  dest: frontend_alb
