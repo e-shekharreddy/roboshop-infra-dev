@@ -312,6 +312,16 @@ resource "aws_security_group_rule" "frontend_backend_alb" {
   # dest or accepting one
   security_group_id = local.frontend_sg_id
 }
+resource "aws_security_group_rule" "frontend_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  # where traffic is comming from
+  source_security_group_id = local.bastion_sg_id
+  # dest or accepting one
+  security_group_id = local.frontend_sg_id
+}
 
 
 
