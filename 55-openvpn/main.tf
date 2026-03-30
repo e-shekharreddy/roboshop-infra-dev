@@ -1,27 +1,15 @@
-data "aws_ami" "joindevops" {
-  most_recent      = true
-  owners           = ["973714476881"]
+resource "aws_instance" "openvpn" {
+  ami           = local.ami_id
+  instance_type = "t3.small"
+  subnet_id = local.public_subnet_id
+  vpc_security_group_ids = [local.openvpn_sg_id]
+  user_data = file("vpn.sh") # here file is function to read the content inside and give to ec2
 
-  filter {
-    name   = "name"
-    values = ["Redhat-9-DevOps-Practice"]
-  }
 
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-}
-
-data "aws_ssm_parameter" "public_subnet_ids" {
-  name = "/${var.project}/${var.environment}/public_subnet_ids"
-}
-
-data "aws_ssm_parameter" "bastion_sg_id" {
-  name = "/${var.project}/${var.environment}/bastion_sg_id"
+  tags = merge(
+    {
+      Name = "${var.project}-${var.environment}-openvpn"
+    },
+    local.common_tags
+  )
 }
