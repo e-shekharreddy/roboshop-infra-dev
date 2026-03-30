@@ -8,7 +8,7 @@ resource "aws_cloudfront_distribution" "roboshop" {
       http_port                = 80
       https_port               = 443
       origin_protocol_policy   = "https-only" # or "http-only", "match-viewer"
-      origin_ssl_protocols     = ["TLSv1.2", "TLSv1.1", "TLSv1.3"]
+      origin_ssl_protocols     = ["TLSv1.2", "TLSv1.1"]
     }
   }
 
@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "roboshop" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "frontend-${var.environment}.${var.domain_name}"
 
-    viewer_protocol_policy = "https_only"
+    viewer_protocol_policy = "https-only"
     cache_policy_id = local.CachingDisabled
 
   }
@@ -79,7 +79,7 @@ resource "aws_route53_record" "cdn" {
 
     # CDN details
   alias {
-    name                   = aws_cloudfront_distribution.roboshop
+    name                   = aws_cloudfront_distribution.roboshop.domain_name
     zone_id                = aws_cloudfront_distribution.roboshop.hosted_zone_id
     evaluate_target_health = true
   }
